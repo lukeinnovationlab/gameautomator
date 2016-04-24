@@ -25,7 +25,7 @@ import static org.junit.Assert.assertTrue;
 public class PvZ2Test {
     private static final int LAUNCH_TIMEOUT = 5000;
 
-    private static final String PACKAGE_PVZ2 = "com.ea.game.pvz2_na";
+    private static final String PVZ2_PACKAGE = "com.ea.game.pvz2_na";
 
     private UiDevice mDevice;
     private int mDisplayHeight;
@@ -51,13 +51,13 @@ public class PvZ2Test {
         // Launch the app
         Context context = InstrumentationRegistry.getContext();
         final Intent intent = context.getPackageManager().getLaunchIntentForPackage
-                (PACKAGE_PVZ2);
+                (PVZ2_PACKAGE);
         // Clear out any previous instances
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
 
         // Wait for the app to appear
-        mDevice.wait(Until.hasObject(By.pkg(PACKAGE_PVZ2).depth(0)), LAUNCH_TIMEOUT);
+        mDevice.wait(Until.hasObject(By.pkg(PVZ2_PACKAGE).depth(0)), LAUNCH_TIMEOUT);
     }
 
     @After
@@ -69,7 +69,7 @@ public class PvZ2Test {
             int rightCenterY = mDisplayHeight / 2;
 
             mDevice.pressRecentApps();
-            assertTrue(mDevice.wait(Until.gone(By.pkg(PACKAGE_PVZ2).depth(0)),
+            assertTrue(mDevice.wait(Until.gone(By.pkg(PVZ2_PACKAGE).depth(0)),
                     LAUNCH_TIMEOUT));
             assertTrue(mDevice.swipe(centerX, centerY, rightCenterX, rightCenterY, 10));
         } catch (RemoteException e) {
