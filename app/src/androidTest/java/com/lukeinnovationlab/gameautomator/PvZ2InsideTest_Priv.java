@@ -16,7 +16,7 @@ import org.junit.runner.RunWith;
 public class PvZ2InsideTest_Priv {
     private static final String PVZ2_PACKAGE = "com.ea.game.pvz2_na";
 
-    private static final int TIMES_RUN = 10;
+    private static final int TIMES_RUN = 1000;
 
     private static final int LAUNCH_TIMEOUT = 5 * 1000;
     private static final int BTN_COINS_POST_CLICK_TIMEOUT = 5 * 1000;
