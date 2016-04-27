@@ -142,7 +142,10 @@ public class PvZ2InsideTest_Priv {
 
         // Wait for play to appear
         testWait(BTN_PLAY_PRE_CLICK_TIMEOUT);
+
+        Log.i(TAG, "To click PVZ2_BTN_PLAY");
         UI_DEVICE.click(PVZ2_BTN_PLAY_CLICK_X, PVZ2_BTN_PLAY_CLICK_Y);
+
         testWait(BTN_PLAY_POST_CLICK_TIMEOUT);
     }
 
