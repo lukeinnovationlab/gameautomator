@@ -17,7 +17,6 @@ import org.junit.runner.RunWith;
 
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Test PvZ2 assuming PvZ2 has been launched.
@@ -28,11 +27,11 @@ public class PvZ2InsideTest_Priv {
 
     private static final String PVZ2_PACKAGE = "com.ea.game.pvz2_na";
 
-    private static final int TIMES_RUN = 10;
+    private static final int MAX_TIMES_RUN = 10;
 
     private static final int WAIT_TIMEOUT = 5 * 1000;
-    private static final int BTN_PLAY_PRE_CLICK_TIMEOUT = 30 * 1000;
-    private static final int BTN_PLAY_POST_CLICK_TIMEOUT = 10 * 1000;
+    private static final int BTN_PLAY_PRE_CLICK_TIMEOUT = 40 * 1000;
+    private static final int BTN_PLAY_POST_CLICK_TIMEOUT = 20 * 1000;
     private static final int BTN_COINS_POST_CLICK_TIMEOUT = 5 * 1000;
     private static final int BTN_COINS_YES_POST_CLICK_TIMEOUT = 45 * 1000;
     private static final int BACK_POST_AD_POST_CLICK_TIMEOUT = 7 * 1000;
@@ -59,7 +58,7 @@ public class PvZ2InsideTest_Priv {
     }
 
     // PVZ2 Button PLAY
-    private static final int PVZ2_BTN_PLAY_CLICK_X_PHY = 640; // mm * 10
+    private static final int PVZ2_BTN_PLAY_CLICK_X_PHY = 610; // mm * 10
     private static final int PVZ2_BTN_PLAY_CLICK_Y_PHY = 640; // mm * 10
 
     private static final int PVZ2_BTN_PLAY_RADIO_X = (int) (PVZ2_BTN_PLAY_CLICK_X_PHY
@@ -126,19 +125,25 @@ public class PvZ2InsideTest_Priv {
         Log.i(TAG, "To start pvz2_test");
 
         while (true) {
-            restartMainActivity();
+            startMainActivityFromHomeScreen();
 
             startPlay();
 
-            int i = TIMES_RUN;
+            int i = MAX_TIMES_RUN;
             while (i-- > 0) {
+                if (!PVZ2_PACKAGE.equalsIgnoreCase(UI_DEVICE.getCurrentPackageName())) {
+                    Log.i(TAG, "Not in " + PVZ2_PACKAGE + " and will try to restart.");
+                    break;
+                } else {
+                    Log.i(TAG, "Still in " + PVZ2_PACKAGE);
+                }
                 runOnce(i);
             }
         }
     }
 
     private void startPlay() {
-        Log.i(TAG, "To start play");
+        Log.i(TAG, "Waiting to start play");
 
         // Wait for play to appear
         testWait(BTN_PLAY_PRE_CLICK_TIMEOUT);
@@ -190,14 +195,9 @@ public class PvZ2InsideTest_Priv {
         }
     }
 
-    private void restartMainActivity() {
+    private void startMainActivityFromHomeScreen() {
         Log.i(TAG, "To restart main activity");
 
-        closeMainActivity();
-        startMainActivityFromHomeScreen();
-    }
-
-    private void startMainActivityFromHomeScreen() {
         // Start from the home screen
         UI_DEVICE.pressHome();
 
@@ -225,8 +225,8 @@ public class PvZ2InsideTest_Priv {
             int rightCenterY = DISPLAY_HEIGHT / 2;
 
             UI_DEVICE.pressRecentApps();
-            assertTrue(UI_DEVICE.wait(Until.gone(By.pkg(PVZ2_PACKAGE).depth(0)), WAIT_TIMEOUT));
-            assertTrue(UI_DEVICE.swipe(centerX, centerY, rightCenterX, rightCenterY, 10));
+            UI_DEVICE.wait(Until.gone(By.pkg(PVZ2_PACKAGE).depth(0)), WAIT_TIMEOUT);
+            UI_DEVICE.swipe(centerX, centerY, rightCenterX, rightCenterY, 10));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
