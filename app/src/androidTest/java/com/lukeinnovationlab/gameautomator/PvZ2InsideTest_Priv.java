@@ -226,7 +226,7 @@ public class PvZ2InsideTest_Priv {
 
             UI_DEVICE.pressRecentApps();
             UI_DEVICE.wait(Until.gone(By.pkg(PVZ2_PACKAGE).depth(0)), WAIT_TIMEOUT);
-            UI_DEVICE.swipe(centerX, centerY, rightCenterX, rightCenterY, 10));
+            UI_DEVICE.swipe(centerX, centerY, rightCenterX, rightCenterY, 10);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
